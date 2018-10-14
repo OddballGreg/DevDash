@@ -4,7 +4,7 @@
 
 I find Trello to be one of the least taxing applications for use as an organizational tool when developing a piece of software, but find myself often interested in understanding my levels of productivity in the associated project, and my ability to understand the amount of work various things may take.
 
-Being unwilling to change up to a more managerial focused platform like Jira or Teamcity for these purposes, I began using a chrome plugin [![Scrum For Trello ](https://chrome.google.com/webstore/detail/scrum-for-trello/jdbcdblgjdpmfninkoogcfpnkjmndgje)] to easily add estimations and rough work hours to cards after their completion. I would then track these stats in a spreadsheet manually each week.
+Being unwilling to change up to a more managerial focused platform like Jira or Teamcity for these purposes, I began using a chrome plugin [Scrum For Trello](https://chrome.google.com/webstore/detail/scrum-for-trello/jdbcdblgjdpmfninkoogcfpnkjmndgje) to easily add estimations and rough work hours to cards after their completion. I would then track these stats in a spreadsheet manually each week.
 
 While this did seem to do the trick at first, I found the process of tracking these stats in trello laboursome and repetitive, into which comes the dev-dash, a tool that can use your Trello API token to monitor and track these states and information directly from these trello boards.
 
