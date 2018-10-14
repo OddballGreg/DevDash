@@ -30,4 +30,4 @@ A user is seeded into the database by default. The credentials are:
 ## To Do
 - Make the app able to service multiple users at a time so that it could be deployed online
 - Improve the TrelloTracker Service in terms of speed and efficiency. (Currently wipes all data on each run, can take several minutes to process all boards depending on user)
-- Develop a way for the application to track stats per board and list over time
+- Develop a way for the application to track stats per board and list over time, allowing historical metrics to be gathered
