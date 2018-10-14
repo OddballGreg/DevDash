@@ -14,8 +14,8 @@ You will need to supply a few values in a file called `.env` in order for docker
 
 You can retrieve the trello api key needed for this application from here: https://trello.com/app-key
 
-`docker-compose up -d --build`
-`docker-compose exec web rake db:setup`
+`docker-compose up -d --build
+docker-compose exec web rake db:setup`
 
 ## To Do
 - Make the app able to service multiple users at a time so that it could be deployed online
