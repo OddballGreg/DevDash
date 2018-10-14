@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   root 'home#index'
   
   get 'home/index'
-  get 'home/trigger_refresh', as: 'trigger_refresh'
-  get 'home/save_trello_token', as: 'save_trello_token'
+  post 'home/trigger_refresh', as: 'trigger_refresh'
+  post 'home/save_trello_token', as: 'save_trello_token'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :boards do

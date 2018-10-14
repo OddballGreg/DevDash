@@ -14,9 +14,20 @@ You will need to supply a few values in a file called `.env` in order for docker
 
 You can retrieve the trello api key needed for this application from here: https://trello.com/app-key
 
-`docker-compose up -d --build && docker-compose exec web rake db:setup`
+Configuring the app should be as simple as running the commands listed below:
+
+  - `docker-compose up -d --build`
+  - `docker-compose exec web rake db:setup`
+  - `docker-compose exec web rake db:migrate`
+  - `docker-compose exec web rake db:seed`
+
+After that, just navigate to `localhost` to use the application.
+
+A user is seeded into the database by default. The credentials are:
+  - email: test@test.com
+  - password: secret
 
 ## To Do
 - Make the app able to service multiple users at a time so that it could be deployed online
-- Improve the TrelloTracker Service in terms of speed and efficiency. (Currently wipes all data on each run)
+- Improve the TrelloTracker Service in terms of speed and efficiency. (Currently wipes all data on each run, can take several minutes to process all boards depending on user)
 - Develop a way for the application to track stats per board and list over time
