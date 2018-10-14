@@ -1,0 +1,24 @@
+- if !alert.nil?
+  br
+  .wrapper
+    .container
+      .col-lg-12
+        .alert.alert-dismissible.alert-danger.text-center
+          - if alert.is_a? String
+            button type="button" class="close" data-dismiss="alert" &times;
+            span.alert = alert
+            br
+          - else
+            - alert.each do |alert|
+              button type="button" class="close" data-dismiss="alert" &times;
+              span.alert = alert
+              br
+
+- if !notice.nil?
+  br
+  .wrapper
+    .container
+      .col-lg-12
+        .alert.alert-dismissible.alert-success.text-center
+          button type="button" class="close" data-dismiss="alert" &times;
+          p.notice = notice

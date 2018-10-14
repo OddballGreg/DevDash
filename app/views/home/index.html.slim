@@ -1,0 +1,75 @@
+.card-header.text-center
+  h1 Home
+.card-body
+  .row.text-center
+    .col-sm-4
+      .card.card-default
+        .card-header
+          h2 General Stats
+        .card-body
+          b #{@boards.count} Boards <br>
+          span #{number_with_precision(@boards.map{|board| board.stats['estimation'].to_i rescue 0}.sum.to_f / (@boards.count.positive? ? @boards.count : 1), precision: 2)} Estimated Hours Per Board <br>
+          span #{number_with_precision(@boards.map{|board| board.stats['actual'].to_i rescue 0}.sum.to_f / (@boards.count.positive? ? @boards.count : 1), precision: 2)} Actual Hours Per Board <br> <br>
+          b #{@lists.count} Lists <br>
+          span #{number_with_precision(@lists.map{|list| list.stats['estimation'].to_i rescue 0}.sum.to_f / (@lists.count.positive? ? @lists.count : 1), precision: 2)} Estimated Hours Per List <br>
+          span #{number_with_precision(@lists.map{|list| list.stats['actual'].to_i rescue 0}.sum.to_f / (@lists.count.positive? ? @lists.count : 1), precision: 2)} Actual Hours Per List <br> <br>
+          b #{@cards.count} Cards <br>
+          span #{number_with_precision(@cards.map{|card| card.stats['estimation'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Estimated Hours Per Card <br>
+          span #{number_with_precision(@cards.map{|card| card.stats['actual'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Actual Hours Per Card <br>
+          br
+          hr
+          b Progression Stats <br>
+          span #{@lists.where('lists.name ILIKE ?', 'In Progress').map(&:cards).flatten.count} Cards "In Progress" <br>
+          span #{@lists.where('lists.name ILIKE ?', 'Code Review').map(&:cards).flatten.count} Cards In "Code Review" <br>
+          span #{@lists.where('lists.name ILIKE ?', 'Completed This Sprint').map(&:cards).flatten.count} Cards "Completed This Sprint"
+    .col-sm-4
+      .card.card-default
+        .card-header
+          h2 Alerts
+        .card-body
+          - if current_user.pulling?
+            .card.card-default
+              .card-header
+                h4 System Pulling Data
+              .card-body
+                p You triggered a refresh of your account's Trello data to the Dev Dash. Please wait. Stats may be incorrect while this completes. You will need to manually refresh to watch this.
+          - else
+            .card.card-default
+              .card-header
+                h4 System Idle
+              .card-body
+                span The system is currently idle. If you would like to refresh the data in the system from your trello account, press the button below: <br>
+                = link_to 'Trigger Refresh', trigger_refresh_path, method: :post, class: 'btn btn-default'
+
+          - if @boards.select{|board| ((board.stats['estimation'] rescue 0) || (board.stats['actual'] rescue 0)).zero?}.count > @boards.count / 2
+            br
+            .card.card-default
+              .card-header
+                h4 Scrum For Trello
+              .card-body
+                p Most of your boards don't seem to have agile estimation and actual hour usage stats. Have you heard of the Scrum For Trello plugin for chrome?
+                = link_to "Chrome Extension", 'https://chrome.google.com/webstore/detail/scrum-for-trello/jdbcdblgjdpmfninkoogcfpnkjmndgje?hl=en'
+          
+          - if current_user.trello_token.nil?
+            br
+            .card.card-default
+              .card-header
+                h4 Missing Trello Token
+              .card-body
+                span Your user is currently missing it's Trello Token, which is necessary for the Dev Dash to fetch your data. Please input it below and save if you wish to use the Dev Dash.
+                br
+                span You can get this trello token from here: 
+                = link_to 'Trello Token Page', "https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&name=Server%20Token&key=#{ENV['TRELLO_API_KEY']}"
+                = form_tag save_trello_token_path do |f|
+                  = text_field_tag :trello_token
+                  = submit_tag 'Save Token'  
+    .col-sm-4
+      .card.card-default
+        .card-header
+          h2 Your Boards
+        .card-body.text-left
+          ol
+            - @boards.each do |board|
+              li
+                = link_to board.name, board_lists_path(board_id: board.id)
+                br

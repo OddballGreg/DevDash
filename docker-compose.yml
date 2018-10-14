@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    privileged: true
+    links:
+      - 'postgres'
+    ports:
+      - '3000'
+    command: "bundle exec rails server -b '0.0.0.0'"
+    env_file: .env
+    environment:
+      DEVDASH_DATABASE_PASSWORD: password
+
+  sidekiq:
+    build: .
+    command: 'sidekiq -C config/sidekiq_default.yml'
+    links:
+      - 'redis'
+      - 'postgres'
+    env_file: .env
+    environment:
+      DEVDASH_DATABASE_PASSWORD: password
+
+  postgres:
+    image: 'postgres'
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'password'
+    ports:
+      - '5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+
+  load_balancer:
+    image: 'dockercloud/haproxy:latest'
+    links:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '80:80'
+
+  redis:
+    image: 'redis:alpine'
+    command: 'redis-server'
+    ports:
+      - '6379'
+    volumes:
+      - 'redis:/data'
+
+volumes:
+  postgres:
+  redis:
