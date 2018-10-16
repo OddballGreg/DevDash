@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ListsController < ApplicationController
   def index
     @board = Board.find(params[:board_id])
@@ -8,15 +10,11 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
   end
 
-  def create
-  end
+  def create; end
 
-  def edit
-  end
+  def edit; end
 
-  def update
-  end
+  def update; end
 
-  def destroy
-  end
+  def destroy; end
 end

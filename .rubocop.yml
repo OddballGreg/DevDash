@@ -1,0 +1,28 @@
+AllCops:
+  Exclude:
+    - 'db/*'
+    - 'db/migrate/*'
+    - 'config/initializers/devise.rb'
+    - 'bin/*'
+
+Metrics/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+Style/MixinGrouping:
+  Exclude:
+    - 'spec/rails_helper.rb'
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Lint/ParenthesesAsGroupedExpression:
+  Exclude: 
+    - 'spec/**/*'

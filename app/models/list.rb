@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: lists
@@ -15,9 +17,10 @@ class List < ApplicationRecord
   has_many :cards
 
   def set_metrics!
-    self.stats = {}
-    self.stats[:estimation] = cards.map{|card| card.stats['estimation'].to_i rescue 0}.sum
-    self.stats[:actual] = cards.map{|card| card.stats['actual'].to_i rescue 0}.sum
-    self.save!
+    self.stats = { estimation: 0, actual: 0 }
+    valid_cards = cards.reject { |card| card.stats.nil? }
+    stats[:estimation] = valid_cards.map { |card| card.stats.dig('estimation').to_i }.sum
+    stats[:actual] = valid_cards.map { |card| card.stats.dig('actual').to_i }.sum
+    save!
   end
 end

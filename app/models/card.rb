@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: cards
@@ -14,11 +16,11 @@ class Card < ApplicationRecord
   belongs_to :list
 
   def set_metrics!
-    self.stats = {}
-    estimation = self.name.match(/\((\d*\.?\d+)\)/)
-    self.stats[:estimation] = (estimation[1] rescue 0)
-    actual = self.name.match(/\[(\d*\.?\d+)\]/)
-    self.stats[:actual] = (actual[1] rescue 0)
-    self.save!
+    self.stats = { estimation: 0, actual: 0 }
+    estimated_hours = name.match(/\((\d*\.?\d+)\)/)
+    actual_hours = name.match(/\[(\d*\.?\d+)\]/)
+    stats[:estimation] = estimated_hours[1] if estimated_hours
+    stats[:actual] = actual_hours[0] if actual_hours
+    save!
   end
 end

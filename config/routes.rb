@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   get 'boards/index'
   require 'sidekiq/web'
@@ -5,7 +7,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   root 'home#index'
-  
+
   get 'home/index'
   post 'home/trigger_refresh', as: 'trigger_refresh'
   post 'home/save_trello_token', as: 'save_trello_token'

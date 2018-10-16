@@ -1,19 +1,25 @@
+# frozen_string_literal: true
+
 class TrelloTracker
-  def self.refresh!(user_id)
-    User.find(user_id).pulling!
+  def initialize(user_id)
+    @user = User.find(user_id)
+  end
 
-    Trello.configure do |config|
-      config.developer_public_key = ENV['TRELLO_API_KEY']
-      config.member_token = User.find(user_id).trello_token
-    end
+  def refresh_user_information!(_user_id)
+    @user.pulling!
 
-    boards = Board.where(user_id: user_id)
-    boards.map(&:cards).flatten.map(&:delete)
-    boards.map(&:lists).flatten.map(&:delete)
-    boards.delete_all
+    configure_trello_client_for_user
+    clear_users_trello_information
+    fetch_users_trello_information
 
+    @user.idle!
+  end
+
+  private
+
+  def fetch_users_trello_information
     Trello::Board.all.each do |trello_board|
-      board = Board.find_or_create_by!(name: trello_board.name, user_id: user_id)
+      board = Board.find_or_create_by!(name: trello_board.name, user: @user)
       trello_board.lists.each do |trello_list|
         list = List.find_or_create_by!(name: trello_list.name, board: board)
         trello_list.cards.each do |trello_card|
@@ -24,7 +30,22 @@ class TrelloTracker
       end
       board.set_metrics!
     end
+  end
 
-    User.find(user_id).idle!
+  def clear_users_trello_information
+    boards = Board.where(user: @user)
+    lists = boards.map(&:lists).flatten
+    cards = boards.map(&:cards).flatten
+
+    cards.map(&:delete)
+    lists.map(&:delete)
+    boards.delete_all
+  end
+
+  def configure_trello_client_for_user
+    Trello.configure do |config|
+      config.developer_public_key = ENV['TRELLO_API_KEY']
+      config.member_token = @user.trello_token
+    end
   end
 end
