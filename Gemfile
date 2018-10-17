@@ -38,8 +38,9 @@ group :development do
   gem 'fasterer', require: false
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rails_best_practices', require: false
-  gem 'reek', require: false
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'rubycritic', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'

@@ -6,15 +6,7 @@ class ListsController < ApplicationController
     @lists = @board.lists
   end
 
-  def new
+  def show
     @list = List.find(params[:id])
   end
-
-  def create; end
-
-  def edit; end
-
-  def update; end
-
-  def destroy; end
 end

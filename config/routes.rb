@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   post 'home/save_trello_token', as: 'save_trello_token'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  resources :boards do
-    resources :lists do
-      resources :cards
+  resources :boards, only: %i[index show] do
+    resources :lists, only: %i[index show] do
+      resources :cards, only: %i[index show]
     end
   end
 end

@@ -16,6 +16,8 @@ class List < ApplicationRecord
   belongs_to :board
   has_many :cards
 
+  validates :name, presence: true
+
   def set_metrics!
     self.stats = { estimation: 0, actual: 0 }
     valid_cards = cards.reject { |card| card.stats.nil? }

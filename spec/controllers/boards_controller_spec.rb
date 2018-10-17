@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe BoardsController, type: :controller do
+  login_user_before_each
+
+  let (:board) {FactoryBot.create(:board)}
+
   describe 'GET #index' do
     it 'returns http success' do
       get :index
@@ -10,37 +14,9 @@ RSpec.describe BoardsController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
+  describe 'GET #show' do
     it 'returns http success' do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe 'GET #create' do
-    it 'returns http success' do
-      get :create
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'returns http success' do
-      get :edit
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe 'GET #update' do
-    it 'returns http success' do
-      get :update
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe 'GET #destroy' do
-    it 'returns http success' do
-      get :destroy
+      get :show, params: {id: board.id}
       expect(response).to have_http_status(:success)
     end
   end

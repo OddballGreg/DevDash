@@ -7,15 +7,7 @@ class CardsController < ApplicationController
     @cards = @list.cards
   end
 
-  def new
+  def show
     @card = Card.find(params[:id])
   end
-
-  def create; end
-
-  def edit; end
-
-  def update; end
-
-  def destroy; end
 end
