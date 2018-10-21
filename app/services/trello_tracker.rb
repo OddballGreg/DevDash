@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require 'trello'
+
 class TrelloTracker
   def initialize(user_id)
     @user = User.find(user_id)
   end
 
-  def refresh_user_information!(_user_id)
+  def refresh_user_information!
     @user.pulling!
 
     configure_trello_client_for_user
@@ -23,12 +25,9 @@ class TrelloTracker
       trello_board.lists.each do |trello_list|
         list = List.find_or_create_by!(name: trello_list.name, board: board)
         trello_list.cards.each do |trello_card|
-          card = Card.find_or_create_by!(name: trello_card.name, list: list)
-          card.set_metrics!
+          Card.find_or_create_by!(name: trello_card.name, list: list)
         end
-        list.set_metrics!
       end
-      board.set_metrics!
     end
   end
 

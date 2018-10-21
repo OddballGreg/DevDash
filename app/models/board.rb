@@ -13,15 +13,17 @@
 #
 
 class Board < ApplicationRecord
+  validates :name, presence: true
+
   belongs_to :user
   has_many :lists
   has_many :cards, through: :lists
 
   def set_metrics!
-    self.stats = { estimation: 0, actual: 0 }
+    self.stats = { estimated: 0, actual: 0 }
     valid_lists = lists.reject { |list| list.stats.nil? }
-    stats[:estimation] = valid_lists.map { |list| list.stats.dig('estimation').to_i }.sum
-    stats[:actual] = valid_lists.map { |list| list.stats.dig('actual').to_i }.sum
+    stats[:estimated] = valid_lists.map { |list| list.stats['estimated'].to_i }.sum
+    stats[:actual] = valid_lists.map { |list| list.stats['actual'].to_i }.sum
     save!
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :board do
-    user
+  factory :card do
+    list
     name { Faker::Internet.name }
   end
 end

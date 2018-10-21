@@ -7,16 +7,16 @@
         .card-header
           h2 General Stats
         .card-body
-          b #{@cards.count} Cards <br>
-          span #{number_with_precision(@cards.map{|card| card.stats['estimation'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Estimated Hours Per Card <br>
-          span #{number_with_precision(@cards.map{|card| card.stats['actual'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Actual Hours Per Card <br>
+          b #{@list.card_count} Cards <br>
+          span #{@list.estimated_hours_per_card} Estimated Hours Per Card <br>
+          span #{@list.actual_hours_per_card} Actual Hours Per Card <br>
     .col-sm-6
       .card.card-default
         .card-header
           h2 Cards
         .card-body.text-left
           ol
-            - @cards.each do |card|
+            - @list.cards.each do |card|
               li
                 span #{card.name}
                 / = link_to card.name, board_list_card_path(board_id: @board.id, list_id: @list.id, card_id: card.id)

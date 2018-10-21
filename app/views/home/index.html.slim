@@ -7,21 +7,21 @@
         .card-header
           h2 General Stats
         .card-body
-          b #{@boards.count} Boards <br>
-          span #{number_with_precision(@boards.map{|board| board.stats['estimation'].to_i rescue 0}.sum.to_f / (@boards.count.positive? ? @boards.count : 1), precision: 2)} Estimated Hours Per Board <br>
-          span #{number_with_precision(@boards.map{|board| board.stats['actual'].to_i rescue 0}.sum.to_f / (@boards.count.positive? ? @boards.count : 1), precision: 2)} Actual Hours Per Board <br> <br>
-          b #{@lists.count} Lists <br>
-          span #{number_with_precision(@lists.map{|list| list.stats['estimation'].to_i rescue 0}.sum.to_f / (@lists.count.positive? ? @lists.count : 1), precision: 2)} Estimated Hours Per List <br>
-          span #{number_with_precision(@lists.map{|list| list.stats['actual'].to_i rescue 0}.sum.to_f / (@lists.count.positive? ? @lists.count : 1), precision: 2)} Actual Hours Per List <br> <br>
-          b #{@cards.count} Cards <br>
-          span #{number_with_precision(@cards.map{|card| card.stats['estimation'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Estimated Hours Per Card <br>
-          span #{number_with_precision(@cards.map{|card| card.stats['actual'].to_i rescue 0}.sum.to_f / (@cards.count.positive? ? @cards.count : 1), precision: 2)} Actual Hours Per Card <br>
+          b #{@user.board_count} Boards <br>
+          span #{@user.estimated_hours_per_board} Estimated Hours Per Board <br>
+          span #{@user.actual_hours_per_board} Actual Hours Per Board <br> <br>
+          b #{@user.list_count} Lists <br>
+          span #{@user.estimated_hours_per_list} Estimated Hours Per List <br>
+          span #{@user.actual_hours_per_list} Actual Hours Per List <br> <br>
+          b #{@user.card_count} Cards <br>
+          span #{@user.estimated_hours_per_card} Estimated Hours Per Card <br>
+          span #{@user.actual_hours_per_card} Actual Hours Per Card <br>
           br
           hr
           b Progression Stats <br>
-          span #{@lists.where('lists.name ILIKE ?', 'In Progress').map(&:cards).flatten.count} Cards "In Progress" <br>
-          span #{@lists.where('lists.name ILIKE ?', 'Code Review').map(&:cards).flatten.count} Cards In "Code Review" <br>
-          span #{@lists.where('lists.name ILIKE ?', 'Completed This Sprint').map(&:cards).flatten.count} Cards "Completed This Sprint"
+          span #{@user.cards_in_progress} Cards "In Progress" <br>
+          span #{@user.cards_in_code_review} Cards In "Code Review" <br>
+          span #{@user.cards_completed_this_sprint} Cards "Completed This Sprint"
     .col-sm-4
       .card.card-default
         .card-header
@@ -41,7 +41,7 @@
                 span The system is currently idle. If you would like to refresh the data in the system from your trello account, press the button below: <br>
                 = link_to 'Trigger Refresh', trigger_refresh_path, method: :post, class: 'btn btn-default'
 
-          - if @boards.select{|board| ((board.stats['estimation'] rescue 0) || (board.stats['actual'] rescue 0)).zero?}.count > @boards.count / 2
+          - if @user.few_scrum_tracking_markers?
             br
             .card.card-default
               .card-header
@@ -69,7 +69,7 @@
           h2 Your Boards
         .card-body.text-left
           ol
-            - @boards.each do |board|
+            - @user.boards.each do |board|
               li
                 = link_to board.name, board_lists_path(board_id: board.id)
                 br

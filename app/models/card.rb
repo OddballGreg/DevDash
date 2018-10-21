@@ -15,12 +15,20 @@
 class Card < ApplicationRecord
   belongs_to :list
 
+  validates :name, presence: true
+
+  after_create :set_metrics!
+
+  private
+
   def set_metrics!
-    self.stats = { estimation: 0, actual: 0 }
+    self.stats = { estimated: 0, actual: 0 }
     estimated_hours = name.match(/\((\d*\.?\d+)\)/)
     actual_hours = name.match(/\[(\d*\.?\d+)\]/)
-    stats[:estimation] = estimated_hours[1] if estimated_hours
-    stats[:actual] = actual_hours[0] if actual_hours
+    stats[:estimated] = estimated_hours[1] if estimated_hours
+    stats[:actual] = actual_hours[1] if actual_hours
     save!
+    reload
+    list.set_metrics!
   end
 end

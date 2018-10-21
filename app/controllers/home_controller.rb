@@ -2,9 +2,7 @@
 
 class HomeController < ApplicationController
   def index
-    @boards = current_user.boards
-    @lists = current_user.lists
-    @cards = current_user.cards
+    @user = current_user.decorate
   end
 
   def trigger_refresh

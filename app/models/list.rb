@@ -19,10 +19,12 @@ class List < ApplicationRecord
   validates :name, presence: true
 
   def set_metrics!
-    self.stats = { estimation: 0, actual: 0 }
+    self.stats = { estimated: 0, actual: 0 }
     valid_cards = cards.reject { |card| card.stats.nil? }
-    stats[:estimation] = valid_cards.map { |card| card.stats.dig('estimation').to_i }.sum
-    stats[:actual] = valid_cards.map { |card| card.stats.dig('actual').to_i }.sum
+    stats[:estimated] = valid_cards.map { |card| card.stats['estimated'].to_i }.sum
+    stats[:actual] = valid_cards.map { |card| card.stats['actual'].to_i }.sum
     save!
+    reload
+    board.set_metrics!
   end
 end
