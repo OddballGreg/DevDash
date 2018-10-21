@@ -7,9 +7,9 @@ RSpec.describe TrelloTracker do
   let (:subject) { TrelloTracker.new(user.id) }
   let (:config_double) { double.as_null_object }
   let (:card) { double(name: 'test') }
-  let (:card_enum) { double() }
+  let (:card_enum) { double }
   let (:list) { double(name: 'test') }
-  let (:list_enum)  { double() }
+  let (:list_enum)  { double }
   let (:board_enum) { double(name: 'test') }
   let (:board) { double(name: 'test') }
 

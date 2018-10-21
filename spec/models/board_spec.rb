@@ -20,12 +20,12 @@ RSpec.describe Board, type: :model do
   it { is_expected.to have_many(:lists) }
   it { is_expected.to have_many(:cards) }
 
-  let! (:board) {FactoryBot.create(:board, name: 'DevOps')}
+  let! (:board) { FactoryBot.create(:board, name: 'DevOps') }
 
   it 'analyses its children for scrum marker statss and sumarizes their values in its own stats hash' do
-    list = FactoryBot.create(:list, stats: {estimated: 5, actual: 5}, board: board)
+    list = FactoryBot.create(:list, stats: { estimated: 5, actual: 5 }, board: board)
     FactoryBot.create(:card, name: '(5) test [5]', list: list)
     board.reload
-    expect(board.stats).to eq({'estimated' => 5, 'actual' => 5})
+    expect(board.stats).to eq('estimated' => 5, 'actual' => 5)
   end
 end
