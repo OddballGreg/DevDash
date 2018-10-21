@@ -18,7 +18,7 @@ module BoardRelationDecorations
   end
 
   def boards_with_stats
-    @boards_with_stats ||= boards.reject { |board| board.stats.nil? }
+    @boards_with_stats ||= boards.select { |board| board.stats }
   end
 
   def estimated_board_hours

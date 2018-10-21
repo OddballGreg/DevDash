@@ -26,7 +26,7 @@ module ListRelationDecorations
   end
 
   def lists_with_stats
-    @lists_with_stats ||= lists.reject { |list| list.stats.nil? }
+    @lists_with_stats ||= lists.select { |list| list.stats }
   end
 
   def nonzero_list_count

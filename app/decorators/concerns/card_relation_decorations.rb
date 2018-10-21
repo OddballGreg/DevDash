@@ -26,7 +26,7 @@ module CardRelationDecorations
   end
 
   def cards_with_stats
-    @cards_with_stats ||= cards.reject { |card| card.stats.nil? }
+    @cards_with_stats ||= cards.select { |card| card.stats }
   end
 
   def nonzero_card_count
