@@ -39,6 +39,5 @@ A user is seeded into the database by default. The credentials are:
 - Make the app able to service and authenticate multiple users at a time so that it could be deployed online
 - Improve the TrelloTracker Service in terms of speed and efficiency. (Currently wipes all data on each run, can take several minutes to process all boards depending on user)
 - Develop a way for the application to track stats per board and list over time, allowing historical metrics to be gathered.
-- Improve the spec suite, as this application was developed rapidly as a POC, there is no spec suite currently.
 - Make the kind of list stats to be tracked configurable, such as allowing the user to configure the type of list names to consider as "In Progress"
 
