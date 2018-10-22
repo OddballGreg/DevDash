@@ -42,10 +42,3 @@ A user is seeded into the database by default. The credentials are:
 - Improve the spec suite, as this application was developed rapidly as a POC, there is no spec suite currently.
 - Make the kind of list stats to be tracked configurable, such as allowing the user to configure the type of list names to consider as "In Progress"
 
-## Code Quality
-- Duplication and Re-useability
-  There is quite a lot of code duplication throughout the app. Consider placing duplicate code into methods that can be called in 1 line. Furthermore, we would like to see smaller methods (single purpose methods), so that they are more easily maintained, and can be easily re-used. Smaller methods are also a lot easier to test.
-- Correct Location and Clean Code
-  We would like to see the code structured a bit better in terms of where it should be placed. There should not be logic in the views. Rather, assign the needed instance variables in the controller and make use of the models, or other classes, to collect the desired data for the instance variables. 
-  This should make the code cleaner, thus easier to maintain, and will probably point out good sections of code for small, re-usable methods.
-  We would also be keen to see the services/trello_tracker.rb class refactored and tested. 
